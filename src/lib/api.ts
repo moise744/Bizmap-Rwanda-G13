@@ -1,7 +1,10 @@
 // Professional API layer for BusiMap Rwanda with real backend integration
 import { Business, BusinessCategory, User, LoginCredentials, RegisterData } from './types';
 
-const API_BASE_URL = 'http://localhost:8000';
+// Resolve API base URL from environment (configured at build time via Vite)
+// Falls back to localhost for development
+const RAW_API_BASE_URL = (import.meta as any)?.env?.VITE_API_BASE_URL as string | undefined;
+const API_BASE_URL = (RAW_API_BASE_URL ? RAW_API_BASE_URL.replace(/\/+$/, '') : 'http://localhost:8000');
 
 // HTTP request helper with auth
 const makeRequest = async (endpoint: string, options: RequestInit = {}) => {
